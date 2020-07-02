@@ -16,14 +16,47 @@ class UserProfileVC : UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView?.backgroundColor = .white
+        // MARK :-  register headerCell
         
+        
+
         collectionView.register(userProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerId")
         
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
         fetchUser()
+        
+        setupLogOutBotton()
     }
+    
 var user : User?
     
+    
+    fileprivate func setupLogOutBotton(){
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "slowmo")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handelLogOutButton))
+        
+    }
+    
+    
+    @objc func handelLogOutButton(){
+        let alerController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        alerController.addAction(UIAlertAction(title: "Log out ", style: .destructive, handler: { (_) in
+            
+            do{
+                try  Auth.auth().signOut()
+                
+                    let login = LogInVC()
+                    let navgController = UINavigationController(rootViewController: login)
+                    self.present(navgController, animated: true, completion: nil)
+                
+            }catch{
+                
+            }
+           
+        }))
+        alerController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alerController, animated: true, completion: nil)
+    }
 fileprivate func fetchUser(){
         guard let usreUId = Auth.auth().currentUser?.uid else {
             return
@@ -58,6 +91,7 @@ extension UserProfileVC : UICollectionViewDelegateFlowLayout{
         return header
     }
     
+    //MARK :- collectionView images 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: view.frame.width, height: 200)
     }

@@ -8,7 +8,7 @@
 
 import UIKit
 import Firebase
-class ViewController: UIViewController {
+class SignUpVC: UIViewController {
     
     let plusPhotoButton : UIButton = {
         
@@ -21,7 +21,7 @@ class ViewController: UIViewController {
     let emailTextField : UITextField = {
         let tf = UITextField()
         tf.placeholder = "Email"
-    
+        
         tf.borderStyle = .roundedRect
         tf.font = UIFont.systemFont(ofSize: 14)
         tf.backgroundColor = UIColor(white: 0, alpha: 0.03)
@@ -63,15 +63,32 @@ class ViewController: UIViewController {
         
         return button
     }()
+    
+    
+    let DontHaveAccountButton : UIButton = {
+           let button = UIButton(type: .system)
+           button.setTitle("", for: .normal)
+        let attrbiutedTitle = NSMutableAttributedString(string: "Do not have account? ", attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 14),NSAttributedString.Key.foregroundColor : UIColor.lightGray])
+           attrbiutedTitle.append(NSAttributedString(string: "SignIn", attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 14), NSAttributedString.Key.foregroundColor : UIColor.rgb(red: 253, green: 136, blue: 6)]))
+           button.setAttributedTitle(attrbiutedTitle, for: .normal)
+           button.addTarget(self, action: #selector(handelSignIn), for: .touchUpInside)
+           return button
+       }()
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        view.backgroundColor = .white
         view.addSubview(plusPhotoButton)
         plusPhotoButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        plusPhotoButton.anchor(top: view.topAnchor, bottom: nil, left: nil, right: nil, padingTop: 140, padingBotton: 0, padingLeft: 0, padingRight: 0, width: 140, height: 140)
+        plusPhotoButton.anchor(top: view.topAnchor, bottom: nil, left: nil, right: nil, padingTop: 100, padingBotton: 0, padingLeft: 0, padingRight: 0, width: 140, height: 140)
+        view.addSubview(DontHaveAccountButton)
+        DontHaveAccountButton.anchor(top: nil, bottom: view.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, padingTop: 0, padingBotton: -20, padingLeft: 0, padingRight: 0, width: 0, height: 50)
         setupInputView()
     }
     
+    @objc func handelSignIn (){
+        
+        navigationController?.popViewController(animated: true)
+    }
     
     @objc func handelphotoButton(){
         let imagepackerController = UIImagePickerController()
@@ -126,40 +143,37 @@ class ViewController: UIViewController {
                         print("an error occured after uploading and then getting the")
                         return
                     }
-            
+                    
                     let ref = Database.database().reference()
                     ref.child("users").child(user.uid).updateChildValues(["username" : username,"profileURL" : downloadUrl])
-                    self.present(MainTabBarController(), animated: true, completion: nil)
                     
-                    self.emailTextField.text = ""
-                    self.passwordTextField.text = ""
-                    self.usernameTextField.text = ""
+                    guard let mainTab = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController else{
+                        return
+                    }
+                    mainTab.setupViewController()
+                    self.dismiss(animated: true, completion: nil)
                 })
-
+                
             }
             
             
-           
+            
         }
         
     }
     fileprivate func  setupInputView(){
         
-        
-        let greenView = UIView()
-        greenView.backgroundColor = .green
-        
         let stackView = UIStackView(arrangedSubviews: [emailTextField,usernameTextField,passwordTextField,signUpButton])
-       
+        
         stackView.distribution = .fillEqually
         stackView.axis = .vertical
         stackView.spacing = 10
         view.addSubview(stackView)
-        stackView.anchor(top: plusPhotoButton.bottomAnchor, bottom: nil, left: view.leftAnchor, right: view.rightAnchor, padingTop: 60, padingBotton: 0, padingLeft: 40, padingRight: -40, width: 0, height: 200)
+        stackView.anchor(top: plusPhotoButton.bottomAnchor, bottom: nil, left: view.leftAnchor, right: view.rightAnchor, padingTop: 40, padingBotton: 0, padingLeft: 40, padingRight: -40, width: 0, height: 250)
     }
 }
 
-extension ViewController : UIImagePickerControllerDelegate,UINavigationControllerDelegate{
+extension SignUpVC : UIImagePickerControllerDelegate,UINavigationControllerDelegate{
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
@@ -177,7 +191,7 @@ extension ViewController : UIImagePickerControllerDelegate,UINavigationControlle
         plusPhotoButton.layer.masksToBounds = true
         
         dismiss(animated: true, completion: nil)
-       
+        
     }
 }
 
