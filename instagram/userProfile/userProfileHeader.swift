@@ -119,27 +119,7 @@ class userProfileHeader : UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-//    fileprivate func getProfilImage(){
-//        
-//            guard  let urlprofile = self.user?.prrofilURlImage else {
-//                return
-//            }
-//            guard let url = URL(string: urlprofile) else {
-//                return
-//            }
-//            URLSession.shared.dataTask(with: url) { (data, respond, error) in
-//                guard let data = data else {
-//                    return
-//                }
-//                guard let image = UIImage(data: data) else{
-//                    return
-//                }
-//                DispatchQueue.main.async {
-//                    self.ProfilImage.image = image
-//                }
-//            }.resume()
-//    }
+
     
     fileprivate func setupLabel(){
         let satackView = UIStackView(arrangedSubviews: [postLable,followedLable,followingLable])

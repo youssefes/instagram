@@ -52,35 +52,6 @@ class UserProfileVC : UICollectionViewController {
     }
     
     
-    //    fileprivate func fetchPosts(){
-    //        guard let userId = Auth.auth().currentUser?.uid else {
-    //            return
-    //        }
-    //        let referance = Database.database().reference().child("Posts").child(userId)
-    //
-    //        referance.observeSingleEvent(of: .value, with: { (snapchat) in
-    //
-    //            guard let dictionary = snapchat.value as? [String : Any] else {
-    //                return
-    //            }
-    //
-    //            dictionary.forEach { (key,value) in
-    //                print("key: \(key) value \(value)")
-    //
-    //                guard  let dictionaryValue = value as? [String : Any] else {
-    //                    return
-    //                }
-    //                let post = Posts(dictionary: dictionaryValue)
-    //                self.posts.append(post)
-    //            }
-    //
-    //
-    //
-    //        }) { (error) in
-    //           print(error)
-    //        }
-    //
-    //    }
     
     var user : User?
     

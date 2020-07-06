@@ -15,6 +15,7 @@
 		E82196DA24A8C69000E417D0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E82196D924A8C69000E417D0 /* Assets.xcassets */; };
 		E82196DD24A8C69000E417D0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E82196DB24A8C69000E417D0 /* LaunchScreen.storyboard */; };
 		E82196E524A8EB4500E417D0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E82196E424A8EB4500E417D0 /* GoogleService-Info.plist */; };
+		E82DB06524B3334500C5C6C2 /* HomeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82DB06424B3334500C5C6C2 /* HomeCell.swift */; };
 		E834CFBC24B1CB2600C7B873 /* PhotoHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E834CFBB24B1CB2600C7B873 /* PhotoHeaderCell.swift */; };
 		E834CFBE24B1D5C400C7B873 /* SharedPhotesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E834CFBD24B1D5C400C7B873 /* SharedPhotesVC.swift */; };
 		E83584DA24AE192100E5999B /* PhotoesSelectorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E83584D924AE192100E5999B /* PhotoesSelectorCell.swift */; };
@@ -43,6 +44,7 @@
 		E82196DC24A8C69000E417D0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E82196DE24A8C69000E417D0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E82196E424A8EB4500E417D0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E82DB06424B3334500C5C6C2 /* HomeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCell.swift; sourceTree = "<group>"; };
 		E834CFBB24B1CB2600C7B873 /* PhotoHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoHeaderCell.swift; sourceTree = "<group>"; };
 		E834CFBD24B1D5C400C7B873 /* SharedPhotesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedPhotesVC.swift; sourceTree = "<group>"; };
 		E83584D924AE192100E5999B /* PhotoesSelectorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoesSelectorCell.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				E865F16A24B32F66002C1DE7 /* HomeViewController.swift */,
+				E82DB06424B3334500C5C6C2 /* HomeCell.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -334,6 +337,7 @@
 				E865D0F824AB4226002BC2CA /* userProfileHeader.swift in Sources */,
 				E865F16B24B32F66002C1DE7 /* HomeViewController.swift in Sources */,
 				E865F16824B31B19002C1DE7 /* CustomImage.swift in Sources */,
+				E82DB06524B3334500C5C6C2 /* HomeCell.swift in Sources */,
 				E82196D324A8C68E00E417D0 /* SceneDelegate.swift in Sources */,
 				E834CFBE24B1D5C400C7B873 /* SharedPhotesVC.swift in Sources */,
 				E8E4D68024A9F707001909C0 /* extension.swift in Sources */,
