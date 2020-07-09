@@ -31,10 +31,15 @@ class SearchVC: UICollectionViewController {
         
         collectionView.register(SearchCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.alwaysBounceVertical = true
+        collectionView.keyboardDismissMode = .onDrag
         
         fetchUsers()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        serachBar.isHidden = false
+    }
     private func addSearchBar(){
         let nav = navigationController?.navigationBar
         
@@ -55,6 +60,10 @@ class SearchVC: UICollectionViewController {
                 }
                 
                 let user = User(userId: key, dictionary: userDictionary)
+                
+                if key == Auth.auth().currentUser?.uid {
+                    return
+                }
                 self.users.append(user)
                 
                 
@@ -69,6 +78,7 @@ class SearchVC: UICollectionViewController {
             print(err)
         }
     }
+    
     
 }
 
@@ -103,5 +113,15 @@ extension SearchVC : UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: 66)
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        serachBar.isHidden = true
+        serachBar.resignFirstResponder()
+        let user = self.filterUser[indexPath.item]
+        
+        let profileVC = UserProfileVC(collectionViewLayout: UICollectionViewFlowLayout())
+        profileVC.userId = user.userID
+        navigationController?.pushViewController(profileVC, animated: true)
     }
 }

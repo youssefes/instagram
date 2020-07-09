@@ -12,16 +12,13 @@ import Firebase
 class UserProfileVC : UICollectionViewController {
     
     let cellId = "cellId"
-    
     var posts = [Posts]()
-    
+    var user : User?
+    var userId : String?
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView?.backgroundColor = .white
         // MARK :-  register headerCell
-        
-        
-        
         collectionView.register(userProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerId")
         
         collectionView.register(postPhotesCell.self, forCellWithReuseIdentifier: cellId)
@@ -29,15 +26,12 @@ class UserProfileVC : UICollectionViewController {
         
         setupLogOutBotton()
         
-        //fetchPosts()
-        fetchOrderPosts()
         
     }
     
     fileprivate func fetchOrderPosts(){
-        guard let userId = Auth.auth().currentUser?.uid else {
-            return
-        }
+        let userId = self.userId ?? (Auth.auth().currentUser?.uid ?? "")
+        
         let referance = Database.database().reference().child("Posts").child(userId)
         
         referance.queryOrdered(byChild: "creationDate").observe(.childAdded) { (snapchat) in
@@ -53,17 +47,10 @@ class UserProfileVC : UICollectionViewController {
         }
     }
     
-    
-    
-    var user : User?
-    
-    
     fileprivate func setupLogOutBotton(){
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "slowmo")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handelLogOutButton))
         
     }
-    
-    
     @objc func handelLogOutButton(){
         let alerController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
@@ -85,13 +72,13 @@ class UserProfileVC : UICollectionViewController {
         present(alerController, animated: true, completion: nil)
     }
     fileprivate func fetchUser(){
-        guard let usreUId = Auth.auth().currentUser?.uid else {
-            return
-        }
+        let usreUId = userId ?? Auth.auth().currentUser?.uid ?? ""
         Database.fetchUserWithUid(Uid: usreUId) { (user) in
             self.user  = user
             self.navigationItem.title = self.user?.userName
+         
             self.collectionView.reloadData()
+            self.fetchOrderPosts()
         }
     }
 }
