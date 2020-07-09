@@ -44,8 +44,10 @@ class UserProfileVC : UICollectionViewController {
             guard let dictionary = snapchat.value as? [String : Any] else {
                 return
             }
-            
-            let post = Posts(dictionary: dictionary)
+            guard let user = self.user else {
+                return
+            }
+            let post = Posts(user: user, dictionary: dictionary)
             self.posts.append(post)
             self.collectionView.reloadData()
         }
@@ -86,22 +88,10 @@ class UserProfileVC : UICollectionViewController {
         guard let usreUId = Auth.auth().currentUser?.uid else {
             return
         }
-        
-        Database.database().reference().child("users").child(usreUId).observeSingleEvent(of: .value, with: { (Snapshot) in
-            
-            guard let snapshet = Snapshot.value as? [String : Any] else {
-                return
-            }
-            
-            self.user = User(dictionary: snapshet)
-            guard let username = self.user?.userName else {
-                return
-            }
-            self.navigationItem.title = username
+        Database.fetchUserWithUid(Uid: usreUId) { (user) in
+            self.user  = user
+            self.navigationItem.title = self.user?.userName
             self.collectionView.reloadData()
-            
-        }) { (error) in
-            print("filled to fetch user \(error)")
         }
     }
 }
@@ -151,13 +141,4 @@ extension UserProfileVC : UICollectionViewDelegateFlowLayout{
 
 
 
-struct User {
-    var userName : String
-    var prrofilURlImage : String
-    
-    init(dictionary : [String :Any]) {
-        self.userName = dictionary["username"] as? String ?? ""
-        self.prrofilURlImage =  dictionary["profileURL"] as? String ?? ""
-        
-    }
-}
+

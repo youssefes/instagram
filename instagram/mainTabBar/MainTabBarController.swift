@@ -34,7 +34,7 @@ class MainTabBarController: UITabBarController {
         
         // serarch viewContrroler
         guard let imageSelectedsearch = UIImage(systemName: "magnifyingglass"), let UnselectImagesearch = UIImage(systemName: "magnifyingglass") else {return}
-        let SearchNc = templateNavigationController(unSelectedImage: UnselectImagesearch, selectedImage: imageSelectedsearch)
+        let SearchNc = templateNavigationController(unSelectedImage: UnselectImagesearch, selectedImage: imageSelectedsearch,rootViewController: SearchVC(collectionViewLayout: UICollectionViewFlowLayout()))
         
         //Plus ViewController add to tabBar
         guard let imageSelectedPlus = UIImage(systemName: "plus.app.fill"), let UnselectImagePlus = UIImage(systemName: "plus.app") else {return}

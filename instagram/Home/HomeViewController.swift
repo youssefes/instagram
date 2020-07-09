@@ -30,7 +30,16 @@ class HomeViewController : UICollectionViewController {
         guard let userId = Auth.auth().currentUser?.uid else {
             return
         }
-        let referance = Database.database().reference().child("Posts").child(userId)
+        Database.fetchUserWithUid(Uid: userId) { (user) in
+            self.fetchPostWithUser(user: user)
+        }
+        
+        
+    }
+    
+    
+    private func fetchPostWithUser(user : User){
+        let referance = Database.database().reference().child("Posts").child(user.userID)
         
         referance.observeSingleEvent(of: .value, with: { (snapchat) in
             
@@ -44,8 +53,9 @@ class HomeViewController : UICollectionViewController {
                 guard  let dictionaryValue = value as? [String : Any] else {
                     return
                 }
-                let post = Posts(dictionary: dictionaryValue)
-                self.posts.append(post)
+                
+                let post = Posts(user: user, dictionary: dictionaryValue)
+                self.posts.insert(post, at: 0)
             }
             self.collectionView.reloadData()
             
@@ -53,7 +63,6 @@ class HomeViewController : UICollectionViewController {
         }) { (error) in
             print(error)
         }
-        
     }
 }
 
@@ -70,7 +79,7 @@ extension HomeViewController : UICollectionViewDelegateFlowLayout {
         }
         
         return UICollectionViewCell()
-       
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

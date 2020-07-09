@@ -15,10 +15,34 @@ class HomeCell: UICollectionViewCell {
             guard let url = post?.imageUrl else {
                 return
             }
+            
+            
             ImageView.loadImage(imageUrl: url)
+            guard let user = post?.user else {
+                return
+            }
+            userNameLbl.text = user.userName
+            PhotoImageView.loadImage(imageUrl: user.prrofilURlImage)
+            
+            
+            setupCptionLbl()
         }
     }
     
+    fileprivate func setupCptionLbl(){
+        
+        guard let post = self.post else{
+            return
+        }
+        
+        let nsAttributedString = NSMutableAttributedString(string: post.user.userName, attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 14, weight: .bold)])
+        nsAttributedString.append(NSAttributedString(string: " \(post.caption) ", attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 12, weight: .semibold)]))
+        
+        nsAttributedString.append(NSAttributedString(string: "\n \n 1 weaks age ", attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 12, weight: .semibold), NSAttributedString.Key.foregroundColor : UIColor.gray]))
+        
+        captionLbl.attributedText = nsAttributedString
+        
+    }
     let PhotoImageView : CustomImageView = {
         let image = CustomImageView()
         image.backgroundColor = .blue
@@ -44,17 +68,7 @@ class HomeCell: UICollectionViewCell {
     
     let captionLbl : UILabel = {
         let label = UILabel()
-        //label.text = "tidjfkjtyoyooyoyoyoyoyoyoyo"
-        let nsAttributedString = NSMutableAttributedString(string: "userName ", attributes: [NSAttributedString.Key.font : 14])
-        nsAttributedString.append(NSAttributedString(string: "some captiopvnfjfkfkfkf", attributes: [NSAttributedString.Key.font : 14]))
-        
-           nsAttributedString.append(NSAttributedString(string: "\n" , attributes: [NSAttributedString.Key.font : 4]))
-        
-        nsAttributedString.append(NSAttributedString(string: "\n 1 weaks age ", attributes: [NSAttributedString.Key.font : 14, NSAttributedString.Key.foregroundColor : UIColor.gray]))
-        
-        label.attributedText = nsAttributedString
         label.numberOfLines = 0
-        label.font = UIFont.boldSystemFont(ofSize: 14)
         return label
     }()
     
