@@ -23,10 +23,7 @@ class UserProfileVC : UICollectionViewController {
         
         collectionView.register(postPhotesCell.self, forCellWithReuseIdentifier: cellId)
         fetchUser()
-        
         setupLogOutBotton()
-        
-        
     }
     
     fileprivate func fetchOrderPosts(){

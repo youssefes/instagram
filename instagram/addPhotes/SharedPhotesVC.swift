@@ -8,7 +8,7 @@
 
 import UIKit
 import Firebase
-
+import FirebaseStorage
 class SharedPhotoVC: UIViewController {
     
     var SelectedImage : UIImage? {

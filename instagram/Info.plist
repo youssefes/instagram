@@ -64,5 +64,13 @@
 	<string>we like access your photoes to use photoe in app</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>need access to your images to select photos you want</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Gilroy-Medium.ttf</string>
+		<string>Gilroy-Regular.ttf</string>
+		<string>Gilroy-Light.ttf</string>
+		<string>Gilroy-Bold.ttf</string>
+		<string>Gilroy-Heavy.ttf</string>
+	</array>
 </dict>
 </plist>

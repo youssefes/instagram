@@ -18,6 +18,26 @@ class userProfileHeader : UICollectionViewCell {
             }
             ProfilImage.loadImage(imageUrl: urlprofile)
             userNameLable.text = user?.userName
+            editProfile()
+        }
+    }
+    
+    fileprivate func editProfile(){
+        guard let currentuser = Auth.auth().currentUser?.uid else{return}
+        guard let userId = user?.userID else {return}
+        
+        if currentuser == userId {
+            editProfileFollowButtum.setTitle("Edit Profile", for: .normal)
+        }else{
+            Database.database().reference().child("Following").child(currentuser).child(userId).observeSingleEvent(of: .value, with: { (snapchat) in
+                if let follwed = snapchat.value as? Int , follwed == 1{
+                    self.setUpUNFollowStyle()
+                }else{
+                    self.setUpFollowStyle()
+                }
+            }) { (err) in
+                print("the error in follwing",err)
+            }
         }
     }
     
@@ -40,7 +60,7 @@ class userProfileHeader : UICollectionViewCell {
         button.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
         return button
     }()
-
+    
     let gridButton : UIButton = {
         let button = UIButton()
         button.tintColor = UIColor(white: 0, alpha: 0.2)
@@ -51,6 +71,7 @@ class userProfileHeader : UICollectionViewCell {
     let userNameLable : UILabel = {
         let lable = UILabel()
         lable.text = "userName"
+        lable.textAlignment = .center
         lable.font = UIFont.boldSystemFont(ofSize: 14)
         return lable
     }()
@@ -67,7 +88,7 @@ class userProfileHeader : UICollectionViewCell {
         let lable = UILabel()
         lable.text = "11\nPosts"
         lable.numberOfLines = 0
-         lable.textAlignment = .center
+        lable.textAlignment = .center
         return lable
     }()
     
@@ -79,18 +100,65 @@ class userProfileHeader : UICollectionViewCell {
         return lable
     }()
     
-    let editProfileButtum : UIButton = {
+    lazy var editProfileFollowButtum : UIButton = {
         let button = UIButton()
-        button.setTitle("EditProfile", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         button.layer.cornerRadius = 5
         button.layer.borderWidth = 1
+        button.addTarget(self, action: #selector(handledFollowanEdited), for: .touchUpInside)
         button.layer.borderColor = UIColor.lightGray.cgColor
         return button
     }()
+    
+    
+    @objc func handledFollowanEdited(){
+        guard let currentLogginUser = Auth.auth().currentUser?.uid else{return}
+        guard let userId = user?.userID else {
+            return
+        }
+        if editProfileFollowButtum.titleLabel?.text == "UNFollow" {
+            print("UNFollow")
+            Database.database().reference().child("Following").child(currentLogginUser).child(userId).removeValue { (error, ref) in
+                if let error = error{
+                    print(error)
+                    return
+                }else{
+                    self.setUpFollowStyle()
+                }
+                
+            }
+            
+        }else{
+            let ref = Database.database().reference().child("Following").child(currentLogginUser)
+            let values = [userId : 1]
+            ref.updateChildValues(values) { (error, ref) in
+                if let err = error {
+                    print(err)
+                    return
+                }else{
+                    self.setUpUNFollowStyle()
+               
+                }
+                
+            }
+        }
         
-
+    }
+    
+    fileprivate func setUpFollowStyle(){
+        editProfileFollowButtum.setTitle("Follow", for: .normal)
+        editProfileFollowButtum.backgroundColor = .systemPink
+        editProfileFollowButtum.setTitleColor(.white, for: .normal)
+        print("seccess unFollow")
+    }
+    
+    fileprivate func setUpUNFollowStyle(){
+        editProfileFollowButtum.setTitle("UNFollow", for: .normal)
+        editProfileFollowButtum.backgroundColor = .systemPink
+        editProfileFollowButtum.setTitleColor(.white, for: .normal)
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -102,14 +170,14 @@ class userProfileHeader : UICollectionViewCell {
         setupButtonTabBar()
         
         addSubview(userNameLable)
-        userNameLable.anchor(top: ProfilImage.bottomAnchor, bottom: gridButton.topAnchor, left: leftAnchor, right: rightAnchor, padingTop: 4, padingBotton: 0, padingLeft: 12, padingRight: 12, width: 0, height: 0)
+        userNameLable.anchor(top: ProfilImage.bottomAnchor, bottom: nil, left: ProfilImage.leftAnchor, right: ProfilImage.rightAnchor, padingTop: 5, padingBotton: 0, padingLeft: 0, padingRight: 0, width: 0, height: 30)
         
         setupLabel()
         
-        addSubview(editProfileButtum)
+        addSubview(editProfileFollowButtum)
         
-        editProfileButtum.anchor(top: postLable.bottomAnchor, bottom: nil, left: postLable.leftAnchor, right: followingLable.rightAnchor, padingTop: 8, padingBotton: 0, padingLeft: 0, padingRight: -12, width: 0, height: 50)
-    
+        editProfileFollowButtum.anchor(top: postLable.bottomAnchor, bottom: nil, left: postLable.leftAnchor, right: followingLable.rightAnchor, padingTop: 15, padingBotton: 0, padingLeft: 0, padingRight: -12, width: 0, height: 45)
+        
     }
     
     
@@ -119,7 +187,7 @@ class userProfileHeader : UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-
+    
     
     fileprivate func setupLabel(){
         let satackView = UIStackView(arrangedSubviews: [postLable,followedLable,followingLable])

@@ -29,7 +29,7 @@ class MainTabBarController: UITabBarController {
     func setupViewController()  {
         //home ViewController add to tabBar
         guard let imageSelectedHome = UIImage(systemName: "house.fill"), let UnselectImageHome = UIImage(systemName: "house") else {return}
-        let Home = templateNavigationController(unSelectedImage: UnselectImageHome, selectedImage: imageSelectedHome, rootViewController: HomeViewController(collectionViewLayout: UICollectionViewFlowLayout()))
+        let Home = templateNavigationController(unSelectedImage: UnselectImageHome, selectedImage: imageSelectedHome, rootViewController: HomeViewController())
         
         
         // serarch viewContrroler
