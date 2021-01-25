@@ -41,6 +41,10 @@
 		E84631B6204F3DB900EA1179 /* chooseWorld.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84631B5204F3DB900EA1179 /* chooseWorld.swift */; };
 		E84631B8204F42FA00EA1179 /* Follwers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84631B7204F42FA00EA1179 /* Follwers.swift */; };
 		E84631BA204F4AD000EA1179 /* pickFollowers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84631B9204F4AD000EA1179 /* pickFollowers.swift */; };
+		E848B90E25BE2CC000A84B2B /* cameraCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = E848B90D25BE2CC000A84B2B /* cameraCapture.swift */; };
+		E848B91025BE36D900A84B2B /* CommentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E848B90F25BE36D900A84B2B /* CommentController.swift */; };
+		E848B91225BE4A9900A84B2B /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E848B91125BE4A9900A84B2B /* CommentCell.swift */; };
+		E848B91425BE4F3F00A84B2B /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = E848B91325BE4F3F00A84B2B /* Comment.swift */; };
 		E848E2C525BCE27C00C5AAE4 /* UIview+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E848E2C225BCE27B00C5AAE4 /* UIview+Extensions.swift */; };
 		E848E2C625BCE27C00C5AAE4 /* Extension+ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E848E2C325BCE27B00C5AAE4 /* Extension+ViewController.swift */; };
 		E848E2C725BCE27C00C5AAE4 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E848E2C425BCE27B00C5AAE4 /* UITextField+Extension.swift */; };
@@ -105,6 +109,10 @@
 		E84631B5204F3DB900EA1179 /* chooseWorld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chooseWorld.swift; sourceTree = "<group>"; };
 		E84631B7204F42FA00EA1179 /* Follwers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Follwers.swift; sourceTree = "<group>"; };
 		E84631B9204F4AD000EA1179 /* pickFollowers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pickFollowers.swift; sourceTree = "<group>"; };
+		E848B90D25BE2CC000A84B2B /* cameraCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cameraCapture.swift; sourceTree = "<group>"; };
+		E848B90F25BE36D900A84B2B /* CommentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentController.swift; sourceTree = "<group>"; };
+		E848B91125BE4A9900A84B2B /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
+		E848B91325BE4F3F00A84B2B /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		E848E2C225BCE27B00C5AAE4 /* UIview+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIview+Extensions.swift"; sourceTree = "<group>"; };
 		E848E2C325BCE27B00C5AAE4 /* Extension+ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension+ViewController.swift"; sourceTree = "<group>"; };
 		E848E2C425BCE27B00C5AAE4 /* UITextField+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
@@ -203,6 +211,7 @@
 		E83F97DF24ADF9F100483877 /* PhotoSelectorController */ = {
 			isa = PBXGroup;
 			children = (
+				E848B90D25BE2CC000A84B2B /* cameraCapture.swift */,
 				E83F97E024ADFA1F00483877 /* PhotoSelectorController.swift */,
 				E83584D924AE192100E5999B /* PhotoesSelectorCell.swift */,
 			);
@@ -271,6 +280,7 @@
 			children = (
 				E8441C4424B1F3E400948686 /* posts.swift */,
 				E850F5F124B722AE00640B53 /* user.swift */,
+				E848B91325BE4F3F00A84B2B /* Comment.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -324,6 +334,8 @@
 			children = (
 				E816A68B25BDDF010052F629 /* HomeCell.swift */,
 				E861428625BDD6410029B719 /* HomeViewController.swift */,
+				E848B90F25BE36D900A84B2B /* CommentController.swift */,
+				E848B91125BE4A9900A84B2B /* CommentCell.swift */,
 			);
 			path = HomeViewController;
 			sourceTree = "<group>";
@@ -511,12 +523,14 @@
 				E861426425BDD5080029B719 /* MainTabBarController.swift in Sources */,
 				E82196D124A8C68E00E417D0 /* AppDelegate.swift in Sources */,
 				E84631B6204F3DB900EA1179 /* chooseWorld.swift in Sources */,
+				E848B91225BE4A9900A84B2B /* CommentCell.swift in Sources */,
 				E861427525BDD56E0029B719 /* PostThumbnailCollectionViewCell.swift in Sources */,
 				E841C7A725BCD00100A2BA5C /* SignViewController.swift in Sources */,
 				E84631B8204F42FA00EA1179 /* Follwers.swift in Sources */,
 				E8B33F6924ACBC6A0050E682 /* loginVC.swift in Sources */,
 				E838895124B7347E00690074 /* Firebase+Ex.swift in Sources */,
 				E861427725BDD56E0029B719 /* CustomExplorerHeader.swift in Sources */,
+				E848B90E25BE2CC000A84B2B /* cameraCapture.swift in Sources */,
 				E861428325BDD5BD0029B719 /* String.swift in Sources */,
 				E834CFBC24B1CB2600C7B873 /* PhotoHeaderCell.swift in Sources */,
 				E83F97E124ADFA1F00483877 /* PhotoSelectorController.swift in Sources */,
@@ -526,6 +540,7 @@
 				E84631B4204F348800EA1179 /* ForgetPassword.swift in Sources */,
 				E861427925BDD56E0029B719 /* StoryImageCollectionViewCell.swift in Sources */,
 				E8441C4524B1F3E400948686 /* posts.swift in Sources */,
+				E848B91425BE4F3F00A84B2B /* Comment.swift in Sources */,
 				E84631BA204F4AD000EA1179 /* pickFollowers.swift in Sources */,
 				E838895624B741C600690074 /* SearchCell.swift in Sources */,
 				E841C7B925BCD27800A2BA5C /* DesignSystem.swift in Sources */,
@@ -540,6 +555,7 @@
 				E841C7BA25BCD27800A2BA5C /* Color.swift in Sources */,
 				E841C7BC25BCD27800A2BA5C /* CustomFontDiscriptor.swift in Sources */,
 				E861428425BDD5BD0029B719 /* GridLayout.swift in Sources */,
+				E848B91025BE36D900A84B2B /* CommentController.swift in Sources */,
 				E816A68C25BDDF010052F629 /* HomeCell.swift in Sources */,
 				E848E2C625BCE27C00C5AAE4 /* Extension+ViewController.swift in Sources */,
 				E861427625BDD56E0029B719 /* MultiplePostCollectionViewCell.swift in Sources */,
@@ -700,6 +716,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = L6VZS75SYY;
 				INFOPLIST_FILE = instagram/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -719,6 +736,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = L6VZS75SYY;
 				INFOPLIST_FILE = instagram/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

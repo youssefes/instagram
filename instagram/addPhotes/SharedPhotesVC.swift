@@ -9,8 +9,13 @@
 import UIKit
 import Firebase
 import FirebaseStorage
+
+protocol sharedPhotosProtocal : class {
+    func saveSecses()
+}
 class SharedPhotoVC: UIViewController {
     
+    weak var sharedPhotosPr : sharedPhotosProtocal?
     var SelectedImage : UIImage? {
         didSet{
             self.ImageView.image = SelectedImage
@@ -38,6 +43,8 @@ class SharedPhotoVC: UIViewController {
         SetUpImageSharedWithText()
         
     }
+    
+    
     
     override var prefersStatusBarHidden: Bool{
         return true
@@ -121,7 +128,9 @@ class SharedPhotoVC: UIViewController {
             }
             
             print("successfull save")
+            self.sharedPhotosPr?.saveSecses()
             self.dismiss(animated: true, completion: nil)
+           
         }
     }
     

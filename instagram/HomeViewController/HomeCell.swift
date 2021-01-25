@@ -8,7 +8,14 @@
 
 import UIKit
 
+protocol HomePostCellDeleget {
+    func didTApComment(post : Posts)
+    
+}
+
 class HomeCell: UICollectionViewCell {
+    
+    var delegate : HomePostCellDeleget?
     
     var post : Posts?{
         didSet{
@@ -48,7 +55,6 @@ class HomeCell: UICollectionViewCell {
     }
     let PhotoImageView : CustomImageView = {
         let image = CustomImageView()
-        image.backgroundColor = .blue
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
         return image
@@ -56,7 +62,6 @@ class HomeCell: UICollectionViewCell {
     
     let ImageView : CustomImageView = {
         let image = CustomImageView()
-        image.backgroundColor = .blue
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
         return image
@@ -88,9 +93,10 @@ class HomeCell: UICollectionViewCell {
         return button
     }()
     
-    let commentButton : UIButton = {
+    lazy var commentButton : UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "message")?.withRenderingMode(.alwaysOriginal), for: .normal)
+        button.addTarget(self, action: #selector(handelComment), for: .touchUpInside)
         return button
     }()
     
@@ -105,6 +111,14 @@ class HomeCell: UICollectionViewCell {
         button.setImage(UIImage(systemName: "bookmark")?.withRenderingMode(.alwaysOriginal), for: .normal)
         return button
     }()
+    
+    @objc func handelComment(){
+        print("comment")
+        guard let post = post else {
+            return
+        }
+        delegate?.didTApComment(post: post)
+    }
         
     override init(frame: CGRect) {
         super.init(frame: frame)

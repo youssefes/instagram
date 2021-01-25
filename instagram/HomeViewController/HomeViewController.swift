@@ -9,11 +9,11 @@
 import UIKit
 import Firebase
 
-class HomeViewController: UIViewController {
-
+class HomeViewController: UIViewController , sharedPhotosProtocal, HomePostCellDeleget{
+   
     let cellId = "cellId"
     var posts = [Posts]()
-    
+   
     lazy var collectionView:UICollectionView = {
         let layout:UICollectionViewFlowLayout = UICollectionViewFlowLayout.init()
         layout.scrollDirection = .vertical
@@ -29,17 +29,30 @@ class HomeViewController: UIViewController {
         return cv
     }()
     
+    var SharedPhoto =  SharedPhotoVC()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        SharedPhoto.sharedPhotosPr = self
         setUpCustomNavBar()
         view.backgroundColor = .white
         view.addSubview(collectionView)
+        let refreshVc = UIRefreshControl()
+        refreshVc.addTarget(self, action: #selector(handelRefreshController), for: .valueChanged)
+        collectionView.refreshControl = refreshVc
         collectionView.pin(to: view)
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         fetchPosts()
         fatchfollwingUsers()
+    }
+    
+    @objc func handelRefreshController(){
+        posts.removeAll()
+        fetchPosts()
+        fatchfollwingUsers()
+    }
+    
+    func saveSecses() {
+        print("done added")
     }
     
     private func fatchfollwingUsers(){
@@ -97,7 +110,7 @@ class HomeViewController: UIViewController {
            let referance = Database.database().reference().child("Posts").child(user.userID)
            
            referance.observeSingleEvent(of: .value, with: { (snapchat) in
-               
+            self.collectionView.refreshControl?.endRefreshing()
                guard let dictionary = snapchat.value as? [String : Any] else {
                    return
                }
@@ -109,7 +122,9 @@ class HomeViewController: UIViewController {
                        return
                    }
                    
-                   let post = Posts(user: user, dictionary: dictionaryValue)
+                   var post = Posts(user: user, dictionary: dictionaryValue)
+                    post.id = key
+                
                 self.posts.append(post)
                }
             self.posts.sort { (p1, p2) -> Bool in
@@ -147,6 +162,7 @@ extension HomeViewController:UICollectionViewDelegate, UICollectionViewDelegateF
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! HomeCell
         cell.post = posts[indexPath.row]
+        cell.delegate = self
         return cell
     }
     
@@ -166,5 +182,12 @@ extension HomeViewController:UICollectionViewDelegate, UICollectionViewDelegateF
         return 0
     }
     
+    func didTApComment(post : Posts){
+        print(post.caption)
+        
+      let commentViewcontroller = CommentController(collectionViewLayout: UICollectionViewFlowLayout())
+        commentViewcontroller.post = post
+        navigationController?.pushViewController(commentViewcontroller, animated: true)
+    }
 }
 

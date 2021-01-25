@@ -26,7 +26,7 @@ class SearchVC: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.backgroundColor = .systemBackground
+        collectionView.backgroundColor = .white
         addSearchBar()
         
         collectionView.register(SearchCell.self, forCellWithReuseIdentifier: cellId)
