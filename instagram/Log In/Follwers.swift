@@ -13,7 +13,7 @@ class Follwers: UIViewController {
     
     lazy var backgroundImage : UIImageView = {
         let image = UIImageView()
-        image.image = #imageLiteral(resourceName: "prof4")
+        image.image = #imageLiteral(resourceName: "Sign-up-3")
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
@@ -93,13 +93,21 @@ class Follwers: UIViewController {
         setupInputView()
     }
     
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
+    
     @objc func handelSignIn (){
         
         navigationController?.popViewController(animated: true)
     }
     
     @objc func handleSignUp(){
-        
+        let follwers = pickFollowers()
+        self.navigationController?.pushViewController(follwers, animated: true)
        
     }
     fileprivate func  setupInputView(){

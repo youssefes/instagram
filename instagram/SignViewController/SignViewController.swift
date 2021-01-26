@@ -12,7 +12,7 @@ class SignViewController: UIViewController {
     
     lazy var backgroundImage : UIImageView = {
         let image = UIImageView()
-        image.image = #imageLiteral(resourceName: "prof4")
+        image.image = #imageLiteral(resourceName: "Sign-up-3")
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
         
@@ -20,7 +20,7 @@ class SignViewController: UIViewController {
     
     lazy var MainLabel : UILabel = {
         let lable = UILabel()
-        lable.font = UIFont(name: "Gilroy-Regular", size: 40)
+        lable.font = UIFont(name: Font.Bold.name, size: 40)
         let attributedString = NSMutableAttributedString(string: "MANIFEST YOUR DREAM WORLD")
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 1.5
@@ -34,8 +34,8 @@ class SignViewController: UIViewController {
     
     lazy var SubLabel : UILabel = {
         let lable = UILabel()
-        lable.font =  UIFont(name: "Gilroy-Regular", size: 20)
-       let attributedString = NSMutableAttributedString(string: "WITH MILLION OF USERS ALL OVER THE WORLD LOFTPOP GIVES YOU REAL FREEDOM LOVE HOW YOU WANT BE WHO YOU WANT")
+        lable.font =  UIFont(name: Font.Medium.name, size: 20)
+       let attributedString = NSMutableAttributedString(string: "WITH MILLION OF USERS ALL OVER THE WORLD LOFTPOP GIVES YOU REAL FREEDOM LIVE HOW YOU WANT BE WHO YOU WANT")
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 1.5
         attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
@@ -51,12 +51,25 @@ class SignViewController: UIViewController {
     lazy var buttonLogin : UIButton = {
         let button = GFButton(backgroundColor: UIColor.systemBackground, title: "LOG IN")
         button.setTitleColor(.systemPink, for: .normal)
+        button.addTarget(self, action: #selector(handleSignInBtn), for: .touchUpInside)
         return button
     }()
     
+    @objc func handleSignInBtn(){
+        let login = LogInVC()
+        login.modalPresentationStyle = .overFullScreen
+        navigationController?.pushViewController(login, animated: true)
+    }
+    
+    @objc func handleSignUpBtn(){
+        let SignVC = SignUpVC()
+        SignVC.modalPresentationStyle = .overFullScreen
+        navigationController?.pushViewController(SignVC, animated: true)
+    }
     
     lazy var buttonSignUp : UIButton = {
         let button = GFButton(backgroundColor: UIColor.systemPink, title: "SIGN UP")
+        button.addTarget(self, action: #selector(handleSignUpBtn), for: .touchUpInside)
         button.heightAnchor.constraint(equalToConstant: 50).isActive = true
         return button
     }()
@@ -119,6 +132,10 @@ class SignViewController: UIViewController {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
     
     func setUpUI() {
         view.addSubview(backgroundImage)

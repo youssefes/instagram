@@ -7,7 +7,8 @@
 //
 
 import UIKit
-
+import IQKeyboardManagerSwift
+import Firebase
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
@@ -15,12 +16,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let _ = (scene as? UIWindowScene) else { return }
-    
+        IQKeyboardManager.shared.enable = true
         let window = UIWindow(windowScene: scene as! UIWindowScene)
         self.window = window
-        window.rootViewController = MainTabBarController()
+        if Auth.auth().currentUser == nil {
+               let navigation = UINavigationController(rootViewController: SignViewController())
+                window.rootViewController = navigation
+            return
+        }else{
+            window.rootViewController = MainTabBarController()
+        }
+    
         window.makeKeyAndVisible()
-        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

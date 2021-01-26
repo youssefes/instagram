@@ -22,7 +22,7 @@ class SearchCell: UICollectionViewCell {
     
     let PhotoImageView : CustomImageView = {
            let image = CustomImageView()
-           image.backgroundColor = .blue
+        
            image.contentMode = .scaleAspectFill
            image.clipsToBounds = true
            return image

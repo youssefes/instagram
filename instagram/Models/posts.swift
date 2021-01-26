@@ -11,6 +11,7 @@ struct Posts{
     
     var id : String?
     let user : User
+    var hasLike : Bool = false
     var imageUrl : String
     var caption : String
     var creationDate : Date

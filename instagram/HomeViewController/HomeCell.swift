@@ -10,7 +10,7 @@ import UIKit
 
 protocol HomePostCellDeleget {
     func didTApComment(post : Posts)
-    
+    func didlike(for homeCellPost : UICollectionViewCell)
 }
 
 class HomeCell: UICollectionViewCell {
@@ -19,15 +19,15 @@ class HomeCell: UICollectionViewCell {
     
     var post : Posts?{
         didSet{
-            guard let url = post?.imageUrl else {
-                return
-            }
+            guard let post = post else{return}
+           let url = post.imageUrl
+          
             
-            
+            likeButton.setImage(post.hasLike == true ? #imageLiteral(resourceName: "heart") : #imageLiteral(resourceName: "activity-selected"), for: .normal)
             ImageView.loadImage(imageUrl: url)
-            guard let user = post?.user else {
-                return
-            }
+            let user = post.user
+            let timpeToDisplay = post.creationDate.getPastTime(for: post.creationDate)
+            timaCreationLbl.text = timpeToDisplay
             userNameLbl.text = user.userName
             PhotoImageView.loadImage(imageUrl: user.prrofilURlImage)
             
@@ -45,19 +45,23 @@ class HomeCell: UICollectionViewCell {
         let nsAttributedString = NSMutableAttributedString(string: post.user.userName, attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 14, weight: .bold)])
         nsAttributedString.append(NSAttributedString(string: " \(post.caption) ", attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 12, weight: .semibold)]))
         
-         nsAttributedString.append(NSAttributedString(string: "\n\n", attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 12, weight: .semibold)]))
-        
-        let timpeToDisplay = post.creationDate.getPastTime(for: post.creationDate)
-        nsAttributedString.append(NSAttributedString(string: timpeToDisplay, attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 12, weight: .semibold), NSAttributedString.Key.foregroundColor : UIColor.gray]))
-        
         captionLbl.attributedText = nsAttributedString
         
     }
+    
     let PhotoImageView : CustomImageView = {
         let image = CustomImageView()
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
         return image
+    }()
+    
+    let timaCreationLbl : UILabel = {
+        let label = UILabel()
+        label.text = "userName"
+        label.font = UIFont(name: Font.ExtraReg.name, size: 10)
+        label.textColor = UIColor.gray
+        return label
     }()
     
     let ImageView : CustomImageView = {
@@ -87,11 +91,16 @@ class HomeCell: UICollectionViewCell {
         return button
     }()
     
-    let likeButton : UIButton = {
+    lazy var likeButton : UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "heart")?.withRenderingMode(.alwaysOriginal), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "activity-selected"), for: .normal)
+        button.addTarget(self, action: #selector(handelLikeBtn), for: .touchUpInside)
         return button
     }()
+    
+    @objc func handelLikeBtn(){
+        delegate?.didlike(for: self)
+    }
     
     lazy var commentButton : UIButton = {
         let button = UIButton()
@@ -126,12 +135,15 @@ class HomeCell: UICollectionViewCell {
         addSubview(userNameLbl)
         addSubview(ImageView)
         addSubview(optionButton)
+        addSubview(timaCreationLbl)
         ImageView.anchor(top: PhotoImageView.bottomAnchor, bottom: nil, left: leftAnchor, right: rightAnchor, padingTop: 8, padingBotton: 0, padingLeft: 0, padingRight: 0, width: 0, height: 0)
         ImageView.heightAnchor.constraint(equalTo: widthAnchor, multiplier: 1).isActive = true
         PhotoImageView.anchor(top: topAnchor, bottom: nil , left: leftAnchor, right: nil, padingTop: 8, padingBotton: 0, padingLeft: 8, padingRight: 0, width: 40, height: 40)
         PhotoImageView.layer.cornerRadius = 40 / 2
         
-        userNameLbl.anchor(top: topAnchor, bottom: PhotoImageView.bottomAnchor, left: PhotoImageView.rightAnchor, right: optionButton.leftAnchor, padingTop: 0, padingBotton: 0, padingLeft: 8, padingRight: 0, width: 0, height: 0)
+        userNameLbl.anchor(top: PhotoImageView.topAnchor, bottom: nil, left: PhotoImageView.rightAnchor, right: optionButton.leftAnchor, padingTop: 10, padingBotton: 0, padingLeft: 8, padingRight: 0, width: 0, height: 0)
+        
+        timaCreationLbl.anchor(top:  userNameLbl.bottomAnchor, bottom: PhotoImageView.bottomAnchor, left: PhotoImageView.rightAnchor, right: optionButton.leftAnchor, padingTop: 0, padingBotton: 0, padingLeft: 8, padingRight: 0, width: 0, height: 0)
         
         optionButton.anchor(top: topAnchor, bottom: PhotoImageView.bottomAnchor, left: nil, right: rightAnchor, padingTop: 0, padingBotton: 0, padingLeft: 0, padingRight: 0, width: 44, height: 0)
         
@@ -139,7 +151,7 @@ class HomeCell: UICollectionViewCell {
 
         addSubview(captionLbl)
         captionLbl.anchor(top: likeButton.bottomAnchor, bottom: bottomAnchor, left: leftAnchor, right: rightAnchor, padingTop: 0, padingBotton: 0, padingLeft: 8, padingRight: 8, width: 0, height: 0)
-       
+     
     }
     
     required init?(coder: NSCoder) {
@@ -154,6 +166,8 @@ class HomeCell: UICollectionViewCell {
         
         addSubview(bookmarkButton)
         bookmarkButton.anchor(top: ImageView.bottomAnchor, bottom: nil, left: nil, right: rightAnchor, padingTop: 0, padingBotton: 0, padingLeft: 0, padingRight: 0, width: 50, height: 50)
+        
+        
     }
     
 }

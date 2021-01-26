@@ -86,6 +86,10 @@ class ForgetPassword : UIViewController {
         setupInputView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+           super.viewWillAppear(animated)
+           navigationController?.setNavigationBarHidden(true, animated: true)
+       }
     
     @objc func dismissBtn (){
         

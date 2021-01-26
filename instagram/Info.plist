@@ -4,8 +4,6 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
-	<key>NSCameraUsageDescription</key>
-	<string>the LoftPop need access you camera to take a photo or Video</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -22,6 +20,20 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>the LoftPop need access you camera to take a photo or Video</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>we like access your photoes to use photoe in app</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>need access to your images to select photos you want</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Gilroy-Medium.ttf</string>
+		<string>Gilroy-Regular.ttf</string>
+		<string>Gilroy-Light.ttf</string>
+		<string>Gilroy-Bold.ttf</string>
+		<string>Gilroy-Heavy.ttf</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -52,8 +64,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
@@ -61,18 +71,6 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>we like access your photoes to use photoe in app</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>need access to your images to select photos you want</string>
-	<key>UIAppFonts</key>
-	<array>
-		<string>Gilroy-Medium.ttf</string>
-		<string>Gilroy-Regular.ttf</string>
-		<string>Gilroy-Light.ttf</string>
-		<string>Gilroy-Bold.ttf</string>
-		<string>Gilroy-Heavy.ttf</string>
 	</array>
 </dict>
 </plist>

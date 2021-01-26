@@ -12,15 +12,6 @@ import Firebase
 class MainTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if Auth.auth().currentUser == nil {
-            DispatchQueue.main.async {
-                let login = LogInVC()
-                let navgController = UINavigationController(rootViewController: login)
-                self.present(navgController, animated: true, completion: nil)
-            }
-            return
-        }
         self.delegate = self
         setupViewController()
         
@@ -42,7 +33,7 @@ class MainTabBarController: UITabBarController {
         
         //Plus ViewController add to tabBar
         guard let imageSelectedLike = UIImage(systemName: "heart.fill"), let UnselectImageLike = UIImage(systemName: "heart") else {return}
-        let LikeNc = templateNavigationController(unSelectedImage: UnselectImageLike, selectedImage: imageSelectedLike)
+        let LikeNc = templateNavigationController(unSelectedImage: UnselectImageLike, selectedImage: imageSelectedLike, rootViewController: LikeVC())
         
         //UserPorfileViewcontroller Add to TabBar
         let layout = UICollectionViewFlowLayout()
@@ -70,9 +61,9 @@ extension MainTabBarController : UITabBarControllerDelegate{
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         if  let index = viewControllers?.firstIndex(of : viewController) {
             if index == 2{
-                let layout = UICollectionViewFlowLayout()
-                let photoSelector = PhotoSelectorVc(collectionViewLayout: layout)
+                let photoSelector = SharePost()
                 let navgationController = UINavigationController(rootViewController: photoSelector)
+                
                 present(navgationController, animated: true, completion: nil)
                 return false
             }

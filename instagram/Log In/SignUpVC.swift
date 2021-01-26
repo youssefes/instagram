@@ -13,7 +13,7 @@ class SignUpVC: UIViewController {
     
     lazy var backgroundImage : UIImageView = {
         let image = UIImageView()
-        image.image = #imageLiteral(resourceName: "prof4")
+        image.image = #imageLiteral(resourceName: "Sign-up-3")
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
@@ -21,7 +21,7 @@ class SignUpVC: UIViewController {
     
     let plusPhotoButton : UIButton = {
         let button = UIButton()
-        button.setImage(#imageLiteral(resourceName: "prof-img1"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "prof3"), for: .normal)
         button.layer.cornerRadius = 50
         button.layer.masksToBounds = true
         button.addTarget(self, action: #selector(handelphotoButton), for: .touchUpInside)
@@ -137,6 +137,11 @@ class SignUpVC: UIViewController {
         setupInputView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+           super.viewWillAppear(animated)
+           navigationController?.setNavigationBarHidden(true, animated: true)
+       }
+    
     @objc func handelSignIn (){
         
         navigationController?.popViewController(animated: true)
@@ -199,11 +204,9 @@ class SignUpVC: UIViewController {
                     let ref = Database.database().reference()
                     ref.child("users").child(user.uid).updateChildValues(["username" : username, "phone" : phone, "date" : date ,"profileURL" : downloadUrl])
                     
-                    guard let mainTab = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController else{
-                        return
-                    }
-                    mainTab.setupViewController()
-                    self.dismiss(animated: true, completion: nil)
+                    let choseWorld = ChooseWorld()
+                    choseWorld.modalPresentationStyle = .overFullScreen
+                    self.navigationController?.pushViewController(choseWorld, animated: true)
                 })
                 
             }

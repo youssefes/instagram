@@ -12,9 +12,10 @@ import Firebase
 
 class pickFollowers : UIViewController {
     
+    var FollowerCountChoose : Int?
     lazy var backgroundImage : UIImageView = {
         let image = UIImageView()
-        image.image = #imageLiteral(resourceName: "prof4")
+        image.image = #imageLiteral(resourceName: "Sign-up-3")
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
         
@@ -112,6 +113,11 @@ class pickFollowers : UIViewController {
     }
     
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
     @objc func dismissBtn (){
         
         navigationController?.popViewController(animated: true)
@@ -121,21 +127,55 @@ class pickFollowers : UIViewController {
     @objc func handleSignIn(sender : UIButton){
         switch sender.tag {
         case 1:
+            following()
+            FollowerCountChoose = 250000
             print("1")
-            UIView.animate(withDuration: 0.5) {
-                sender.backgroundColor = UIColor.rgb(red: 21, green: 141, blue: 253)
-            }
-            
         case 2:
-            print("2")
+             following()
+             FollowerCountChoose = 350000
         case 3:
-            print("3")
+             following()
+             FollowerCountChoose = 750000
         case 4:
-            print("4")
+             following()
+             FollowerCountChoose = 1000000
         default:
-            print("non")
+             following()
+             FollowerCountChoose = 250
+        
         }
         
+    }
+    
+    func following(){
+        guard let currentLogginUser = Auth.auth().currentUser?.uid else{return}
+        let ref = Database.database().reference().child("Following").child(currentLogginUser)
+        Database.database().reference().child("users").observe(.value, with: { (snapchat) in
+            let value = snapchat.value as? [String : Any]
+            value?.forEach({ (key , value) in
+                let values = [key : 1]
+                ref.updateChildValues(values) { (error, ref) in
+                    if let err = error {
+                        print(err)
+                        return
+                    }else{
+                        
+                    }
+                }
+            })
+        }) { (error) in
+            print(error)
+        }
+        let maintab = MainTabBarController()
+        self.navigationController?.pushViewController(maintab, animated: true)
+    }
+    
+    
+    func setUpUNFollowStyle(sender : UIButton) {
+        UIView.animate(withDuration: 0.5) {
+            sender.backgroundColor = UIColor.rgb(red: 21, green: 141, blue: 253)
+        }
+        print("non")
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {

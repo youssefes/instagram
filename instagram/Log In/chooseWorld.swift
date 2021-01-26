@@ -13,7 +13,7 @@ class ChooseWorld : UIViewController {
     
     lazy var backgroundImage : UIImageView = {
         let image = UIImageView()
-        image.image = #imageLiteral(resourceName: "prof4")
+        image.image = #imageLiteral(resourceName: "Sign-up-3")
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
         
@@ -51,7 +51,7 @@ class ChooseWorld : UIViewController {
         button.cornerRadius = 4
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         button.setTitleColor(.white, for: .normal)
-        button.addTarget(self, action: #selector(handleSignIn), for: .touchUpInside)
+        button.addTarget(self, action: #selector(haveAFun), for: .touchUpInside)
         return button
     }()
     
@@ -63,9 +63,20 @@ class ChooseWorld : UIViewController {
         button.cornerRadius = 4
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20  )
         button.setTitleColor(.white, for: .normal)
-        button.addTarget(self, action: #selector(handleSignIn), for: .touchUpInside)
+        button.addTarget(self, action: #selector(beFunBtn), for: .touchUpInside)
         return button
     }()
+    
+    @objc func haveAFun(){
+        let follwers = Follwers()
+        self.navigationController?.pushViewController(follwers, animated: true)
+    }
+    
+    
+    @objc func beFunBtn(){
+        let mainTab = MainTabBarController()
+        self.navigationController?.pushViewController(mainTab, animated: true)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,10 +92,7 @@ class ChooseWorld : UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
-    
-    @objc func handleSignIn(){
-        
-    }
+   
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -113,6 +121,12 @@ class ChooseWorld : UIViewController {
         view.addSubview(stackView)
         stackView.anchor(top: MainLabel.bottomAnchor, bottom: nil, left: view.leftAnchor, right: view.rightAnchor, padingTop: 40, padingBotton: 0, padingLeft: 20, padingRight: -20, width: 0, height: 140)
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
     @objc func handelSignUp(){
         let signUp = SignUpVC()
         self.navigationController?.pushViewController(signUp, animated: true)

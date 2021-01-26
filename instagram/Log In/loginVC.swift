@@ -13,7 +13,7 @@ class LogInVC : UIViewController {
     
     lazy var backgroundImage : UIImageView = {
         let image = UIImageView()
-        image.image = #imageLiteral(resourceName: "prof4")
+        image.image = #imageLiteral(resourceName: "Sign-up-3")
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
         
@@ -121,11 +121,9 @@ class LogInVC : UIViewController {
                 return
             }
             
-            guard let mainTab = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController else{
-                return
-            }
-            mainTab.setupViewController()
-            self.dismiss(animated: true, completion: nil)
+            let choseWorld = ChooseWorld()
+            choseWorld.modalPresentationStyle = .overFullScreen
+            self.navigationController?.pushViewController(choseWorld, animated: true)
             
         }
     }

@@ -7,6 +7,9 @@
 //
 
 import UIKit
+
+
+
 class postPhotesCell: UICollectionViewCell {
     var post : Posts?  {
         didSet{

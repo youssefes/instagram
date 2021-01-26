@@ -9,13 +9,23 @@
 import UIKit
 import Firebase
 
+protocol userProfileHeaderDeleget {
+    func didchangeToGrid()
+    func didchangeTolist()
+}
 class userProfileHeader : UICollectionViewCell {
+    
+    var Deleget : userProfileHeaderDeleget?
     
     var user : User? {
         didSet{
             guard  let urlprofile = self.user?.prrofilURlImage else {
                 return
             }
+            guard let email = Auth.auth().currentUser?.email else {
+                      return
+                  }
+            userEmailLable.text = email
             ProfilImage.loadImage(imageUrl: urlprofile)
             userNameLable.text = user?.userName
             editProfile()
@@ -47,12 +57,19 @@ class userProfileHeader : UICollectionViewCell {
         return iv
     }()
     
-    let listButton : UIButton = {
+    lazy var listButton : UIButton = {
         let button = UIButton()
         button.tintColor = UIColor(white: 0, alpha: 0.2)
+        button.addTarget(self, action: #selector(handelListButton), for: .touchUpInside)
         button.setImage(UIImage(systemName: "rectangle.grid.3x2"), for: .normal)
         return button
     }()
+    
+    @objc func handelListButton(){
+        listButton.tintColor = UIColor.rgb(red: 17, green: 154, blue: 237)
+        gridButton.tintColor = UIColor(white: 0, alpha: 0.2)
+        Deleget?.didchangeTolist()
+    }
     
     let BookmarkButton : UIButton = {
         let button = UIButton()
@@ -61,24 +78,41 @@ class userProfileHeader : UICollectionViewCell {
         return button
     }()
     
-    let gridButton : UIButton = {
+    lazy var gridButton : UIButton = {
         let button = UIButton()
-        button.tintColor = UIColor(white: 0, alpha: 0.2)
+        button.tintColor = UIColor.rgb(red: 17, green: 154, blue: 237)
         button.setImage(UIImage(systemName: "grid"), for: .normal)
+        button.addTarget(self, action: #selector(handelgridButton), for: .touchUpInside)
         return button
     }()
     
+    @objc func handelgridButton(){
+         gridButton.tintColor = UIColor.rgb(red: 17, green: 154, blue: 237)
+         listButton.tintColor = UIColor(white: 0, alpha: 0.2)
+        Deleget?.didchangeToGrid()
+     }
+    
     let userNameLable : UILabel = {
         let lable = UILabel()
-        lable.text = "userName"
+        lable.textColor = .white
+        lable.font = UIFont(name: Font.Bold.name, size: 20)
         lable.textAlignment = .center
-        lable.font = UIFont.boldSystemFont(ofSize: 14)
         return lable
     }()
+    
+    let userEmailLable : UILabel = {
+         let lable = UILabel()
+         lable.textColor = .white
+         lable.font = UIFont(name: Font.Bold.name, size: 20)
+         lable.textAlignment = .center
+         return lable
+     }()
     
     let postLable : UILabel = {
         let lable = UILabel()
         lable.text = "11\nPosts"
+        lable.textColor = .white
+        lable.font = UIFont(name: Font.Bold.name, size: 18)
         lable.numberOfLines = 0
         lable.textAlignment = .center
         return lable
@@ -86,7 +120,9 @@ class userProfileHeader : UICollectionViewCell {
     
     let followedLable : UILabel = {
         let lable = UILabel()
-        lable.text = "11\nPosts"
+        lable.text = "11\nFollowing"
+        lable.textColor = .white
+        lable.font = UIFont(name: Font.Bold.name, size: 17)
         lable.numberOfLines = 0
         lable.textAlignment = .center
         return lable
@@ -94,7 +130,9 @@ class userProfileHeader : UICollectionViewCell {
     
     let followingLable : UILabel = {
         let lable = UILabel()
-        lable.text = "11\nPosts"
+        lable.text = "11\nFollwer"
+        lable.textColor = .white
+        lable.font = UIFont(name: Font.Bold.name, size: 17)
         lable.numberOfLines = 0
         lable.textAlignment = .center
         return lable
@@ -102,17 +140,17 @@ class userProfileHeader : UICollectionViewCell {
     
     lazy var editProfileFollowButtum : UIButton = {
         let button = UIButton()
-        button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
-        button.layer.cornerRadius = 5
-        button.layer.borderWidth = 1
+        button.setTitleColor(.white, for: .normal)
+        button.cornerRadius = 20
+        button.titleLabel?.font = UIFont(name: Font.ExtraReg.name, size: 15)
         button.addTarget(self, action: #selector(handledFollowanEdited), for: .touchUpInside)
-        button.layer.borderColor = UIColor.lightGray.cgColor
+        button.backgroundColor = .systemPink
         return button
     }()
     
     
     @objc func handledFollowanEdited(){
+       
         guard let currentLogginUser = Auth.auth().currentUser?.uid else{return}
         guard let userId = user?.userID else {
             return
@@ -147,6 +185,7 @@ class userProfileHeader : UICollectionViewCell {
     }
     
     fileprivate func setUpFollowStyle(){
+       
         editProfileFollowButtum.setTitle("Follow", for: .normal)
         editProfileFollowButtum.backgroundColor = .systemPink
         editProfileFollowButtum.setTitleColor(.white, for: .normal)
@@ -154,6 +193,7 @@ class userProfileHeader : UICollectionViewCell {
     }
     
     fileprivate func setUpUNFollowStyle(){
+       
         editProfileFollowButtum.setTitle("UNFollow", for: .normal)
         editProfileFollowButtum.backgroundColor = .systemPink
         editProfileFollowButtum.setTitleColor(.white, for: .normal)
@@ -162,42 +202,15 @@ class userProfileHeader : UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        addSubview(ProfilImage)
-        ProfilImage.anchor(top: self.topAnchor, bottom: nil, left: self.leftAnchor, right: nil, padingTop: 12, padingBotton: 0, padingLeft: 12, padingRight: 0, width: 80, height: 80)
-        ProfilImage.layer.cornerRadius = 80 / 2
-        ProfilImage.clipsToBounds = true
-        
         setupButtonTabBar()
-        
-        addSubview(userNameLable)
-        userNameLable.anchor(top: ProfilImage.bottomAnchor, bottom: nil, left: ProfilImage.leftAnchor, right: ProfilImage.rightAnchor, padingTop: 5, padingBotton: 0, padingLeft: 0, padingRight: 0, width: 0, height: 30)
-        
-        setupLabel()
-        
-        addSubview(editProfileFollowButtum)
-        
-        editProfileFollowButtum.anchor(top: postLable.bottomAnchor, bottom: nil, left: postLable.leftAnchor, right: followingLable.rightAnchor, padingTop: 15, padingBotton: 0, padingLeft: 0, padingRight: -12, width: 0, height: 45)
+  
         
     }
-    
-    
-    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
-    
-    fileprivate func setupLabel(){
-        let satackView = UIStackView(arrangedSubviews: [postLable,followedLable,followingLable])
-        addSubview(satackView)
-        satackView.axis = .horizontal
-        satackView.distribution = .fillEqually
-        satackView.alignment = .center
-        satackView.anchor(top: topAnchor, bottom: nil, left: ProfilImage.rightAnchor, right: rightAnchor, padingTop: 12, padingBotton: 0, padingLeft: 12, padingRight: 0, width: 0, height: 50)
-    }
-    
+
     fileprivate func setupButtonTabBar(){
         
         let topDividerView = UIView()
@@ -206,6 +219,35 @@ class userProfileHeader : UICollectionViewCell {
         let bottomDividerView = UIView()
         bottomDividerView.backgroundColor = UIColor.lightGray
         
+        addSubview(ProfilImage)
+        ProfilImage.anchor(top: self.topAnchor, bottom: nil, left: self.leftAnchor, right: self.rightAnchor, padingTop: 0, padingBotton: 0, padingLeft: 0, padingRight: 0, width: 0, height: 0)
+        let Gredientview = UIView()
+        Gredientview.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.5)
+        addSubview(Gredientview)
+        Gredientview.anchor(top: ProfilImage.topAnchor, bottom: ProfilImage.bottomAnchor, left: ProfilImage.leftAnchor, right: ProfilImage.rightAnchor, padingTop: 0, padingBotton: 0, padingLeft: 0, padingRight: 0, width: 0, height: 0)
+        addSubview(userNameLable)
+        
+        userNameLable.anchor(top: nil, bottom: nil, left: nil, right: nil, padingTop: 0, padingBotton: 0, padingLeft: 0, padingRight: 0, width: 0, height: 0)
+        userNameLable.centerYAnchor.constraint(equalTo: ProfilImage.centerYAnchor,constant: -20).isActive = true
+        userNameLable.centerXAnchor.constraint(equalTo: ProfilImage.centerXAnchor).isActive = true
+        addSubview(userEmailLable)
+        userEmailLable.anchor(top: userNameLable.bottomAnchor, bottom: nil, left: nil, right: nil, padingTop: 5, padingBotton: 0, padingLeft: 0, padingRight: 0, width: 0, height: 0)
+        userEmailLable.leadingAnchor.constraint(equalTo: userNameLable.leadingAnchor).isActive = true
+         userEmailLable.trailingAnchor.constraint(equalTo: userNameLable.trailingAnchor).isActive = true
+        userEmailLable.centerXAnchor.constraint(equalTo: ProfilImage.centerXAnchor).isActive = true
+        let satackView = UIStackView(arrangedSubviews: [postLable,followedLable,followingLable])
+        addSubview(satackView)
+        satackView.axis = .horizontal
+        satackView.distribution = .fillEqually
+        satackView.spacing = 0
+        satackView.alignment = .center
+        satackView.anchor(top: nil, bottom: ProfilImage.bottomAnchor, left: self.leftAnchor, right: nil, padingTop: 0, padingBotton: 20 , padingLeft: 0, padingRight: 0, width: 0, height: 50)
+        addSubview(editProfileFollowButtum)
+        
+        editProfileFollowButtum.anchor(top: nil, bottom: ProfilImage.bottomAnchor, left: satackView.rightAnchor, right: rightAnchor, padingTop: 0, padingBotton: 20, padingLeft: 12, padingRight: -12, width: 120, height: 40)
+        
+        layoutIfNeeded()
+       
         let stackView = UIStackView(arrangedSubviews: [gridButton,listButton,BookmarkButton])
         addSubview(stackView)
         
@@ -213,9 +255,13 @@ class userProfileHeader : UICollectionViewCell {
         addSubview(bottomDividerView)
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
-        stackView.anchor(top: nil, bottom: self.bottomAnchor, left: self.leftAnchor, right: self.rightAnchor, padingTop: 0, padingBotton: 0, padingLeft: 0, padingRight: 0, width: 0, height: 50)
+        stackView.anchor(top: ProfilImage.bottomAnchor, bottom: self.bottomAnchor, left: self.leftAnchor, right: self.rightAnchor, padingTop: 0, padingBotton: 0, padingLeft: 0, padingRight: 0, width: 0, height: 50)
         topDividerView.anchor(top: stackView.topAnchor, bottom: nil, left: leftAnchor, right: rightAnchor, padingTop: 0, padingBotton: 0, padingLeft: 0, padingRight: 0, width: 0, height: 0.5)
         
         bottomDividerView.anchor(top: stackView.bottomAnchor, bottom: nil, left: leftAnchor, right: rightAnchor, padingTop: 0, padingBotton: 0, padingLeft: 0, padingRight: 0, width: 0, height: 0.5)
+        
+      
+        
+        
     }
 }
